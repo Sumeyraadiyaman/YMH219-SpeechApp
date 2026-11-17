@@ -10,7 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="3.3.0" />
     <PackageReference Include="System.Speech" Version="11.0.0" />
+    <PackageReference Include="Vosk" Version="0.3.38" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Update="Models\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
