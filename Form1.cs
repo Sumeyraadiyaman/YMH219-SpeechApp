@@ -29,6 +29,7 @@ namespace YMH219_SpeechApp
         public Form1()
         {
             InitializeComponent();
+            ApplyTheme(); // Renkleri ve buton stillerini uygula
 
             // Metin kutularının zemini her zaman beyaz kalsın (salt okunurken de)
             txtTts.BackColor = Color.White;
@@ -466,6 +467,66 @@ namespace YMH219_SpeechApp
 
         #endregion
 
+        #region Görünüm
+
+        // Pasif butonların rengi
+        private static readonly Color DisabledColor = Color.FromArgb(215, 215, 215);
+
+        // Pembe-mint temasını uygular
+        private void ApplyTheme()
+        {
+            BackColor = Color.FromArgb(253, 246, 249); // Çok açık pembe zemin
+
+            // Bölüm başlıkları: sol pembe, sağ mint
+            grpTts.ForeColor = Color.FromArgb(173, 20, 87);
+            grpStt.ForeColor = Color.FromArgb(0, 121, 107);
+
+            // Metin kutuları: koyu gri yazı, ince kenar
+            txtTts.ForeColor = Color.FromArgb(55, 45, 50);
+            txtStt.ForeColor = Color.FromArgb(55, 45, 50);
+            txtTts.BorderStyle = BorderStyle.FixedSingle;
+            txtStt.BorderStyle = BorderStyle.FixedSingle;
+
+            // Açılır menüler düz görünümlü olsun
+            cmbVoices.FlatStyle = FlatStyle.Flat;
+            cmbRecognizers.FlatStyle = FlatStyle.Flat;
+
+            // Kaydırma çubuğunun zemini formla aynı olsun
+            trkRate.BackColor = BackColor;
+
+            // TTS butonları (pembe tonlar)
+            StyleButton(btnSpeak, Color.FromArgb(236, 64, 122));      // Pembe
+            StyleButton(btnPause, Color.FromArgb(171, 130, 220));     // Lavanta
+            StyleButton(btnStopSpeak, Color.FromArgb(239, 83, 80));   // Kırmızımsı
+            StyleButton(btnClearTts, Color.FromArgb(176, 176, 176));  // Gri
+
+            // STT butonları (mint tonlar)
+            StyleButton(btnListen, Color.FromArgb(38, 166, 154));     // Mint
+            StyleButton(btnStopListen, Color.FromArgb(239, 83, 80));  // Kırmızımsı
+            StyleButton(btnSaveStt, Color.FromArgb(77, 182, 172));    // Açık mint
+            StyleButton(btnClearStt, Color.FromArgb(176, 176, 176));  // Gri
+        }
+
+        // Bir butona düz, renkli görünüm verir; pasifken otomatik griye döner
+        private void StyleButton(Button button, Color color)
+        {
+            button.FlatStyle = FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 0;
+            button.ForeColor = Color.White;
+            button.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            button.Cursor = Cursors.Hand;
+            button.UseVisualStyleBackColor = false;
+
+            button.BackColor = button.Enabled ? color : DisabledColor;
+
+            // Buton aktif/pasif olduğunda rengini kendiliğinden değiştirsin
+            button.EnabledChanged += (sender, e) =>
+            {
+                button.BackColor = button.Enabled ? color : DisabledColor;
+            };
+        }
+
+        #endregion
         #region Ortak
 
         // Durum yazısını okuma, dinleme ve model durumuna göre günceller
